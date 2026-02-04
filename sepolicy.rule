@@ -1,0 +1,4 @@
+allow mosey_server servicemanager:binder call;
+allow servicemanager mosey_server:binder call;
+allow mosey_server mosey_service:service_manager { add find };
+allow mosey_server self:capability { net_admin net_raw };
