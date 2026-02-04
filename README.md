@@ -27,6 +27,8 @@ I have found a native binary named mosey_server (the name matches the server com
   + libdl.so
 + Contains the string: AServiceManager_addService
 
+<img width="720" height="522" alt="image" src="https://github.com/user-attachments/assets/43b4809b-4271-4acf-95ef-4188a0745c20" />
+
 This and some on-device testing indicates that the binary attempts to register a native AIDL (NDK Binder) service via `AServiceManager_addService() ` with the service name: `com.google.pixel.service.IService/default`. The source path embedded in the binary  `vendor/google/services/QuickShareExtension/src/server.rs` suggests that the binary is part of the Quick Share extension and it is also expected to launch on boot.
 
 Init configuration (mosey.rc) looks as follows:
@@ -73,9 +75,9 @@ A theoretical workaround would be modifying the firmware images to include the m
 Relevant files likely include (by search query "mosey"):
 Here is a brief description of each file from the unpacked Android image (from Gemini):
 + **202504.cil:** This is a Common Intermediate Language (CIL) file containing the public SELinux policy rules for a specific Android API level (in this case, likely API 36/Android 16) to ensure backward compatibility with older vendor partitions.
-+ **compatibility_matrix.xml: **This file defines the hardware and software requirements that a device must meet to be compatible with a specific version of the Android framework, including HAL versions and kernel configurations.
-+ **product_sepolicy.cil: **This file contains the SELinux security policies specific to the product partition, defining permissions for apps and services added by the device manufacturer.
-+ **system_ext_sepolicy.cil: **This file houses the SELinux policies for the system_ext partition, which contains non-core system components and extensions provided by the vendor (Google).
++ **compatibility_matrix.xml:** This file defines the hardware and software requirements that a device must meet to be compatible with a specific version of the Android framework, including HAL versions and kernel configurations.
++ **product_sepolicy.cil:** This file contains the SELinux security policies specific to the product partition, defining permissions for apps and services added by the device manufacturer.
++ **system_ext_sepolicy.cil:** This file houses the SELinux policies for the system_ext partition, which contains non-core system components and extensions provided by the vendor (Google).
 + **system_ext_seapp_contexts:** This configuration file maps app package names or signatures to specific SELinux security domains for processes running on the system_ext partition.
 + **vendor_file_contexts:** This file maps file system paths on the vendor partition to specific SELinux security labels to control access to hardware-specific files and libraries.
 + **vendor_sepolicy.cil:** This is the primary SELinux policy file for the vendor partition, containing the security rules that govern low-level hardware services and drivers.
