@@ -1,3 +1,8 @@
+> [!CAUTION]
+> This is ongoing experemental research.  
+> FLASH ANY MODULES AT YOUR OWN RISK! You MUST know what are you doing.  
+> For research and debug purpuses only. 
+
 <h1 align="center">Mosey extended v2 (MMT-Ex)</h1>
 
 <div align="center">
