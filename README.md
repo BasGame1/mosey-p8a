@@ -2,6 +2,12 @@
 > This project is independent and not affiliated with, authorized, or endorsed by Google LLC or Apple Inc.  
 > All trademarks (including Android, Google, and AirDrop) belong to their respective owners.
 
+> [!IMPORTANT]
+> **HELP WANTED! ПРОЕКТУ НУЖНА ПОМОЩЬ!**  
+> If you own (or know someone who owns) Pixel 9 or Pixel 10 series device (excluding 9a) or any other device that supports Airdrop (Galaxy S24-26, some BBK devices) and willing to help this project – proceed to [AIRDROP TESTING GUIDE](./MOSEY_CAPTURE_TEST_SUITE.md )
+> 
+> Если у вас (или ваших знакомых) есть Pixel 9/10 (не считая 9a) или любое другое устройство поддерживающее Airdrop (Galaxy S24-26, пара устройств от BBK) и желание помочь проекту – прочтите [ГАЙД ПО ТЕСТИРОВАНИЮ AIRDROP](./MOSEY_CAPTURE_TEST_SUITE.md )
+
 
 <h1 align="center">Mosey Extended v2 (MMT-Ex)</h1>
 
