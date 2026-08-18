@@ -5,9 +5,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+OUT_DIR="${OUT_DIR:-$REPO_ROOT/out}"
 MODULE_SYS_DIR="$REPO_ROOT/system/vendor/lib/modules"
 mkdir -p "$OUT_DIR" "$MODULE_SYS_DIR"
-
 echo "[+] Building wonder_mosey_wild.ko module..."
 echo "[+] Output path: $OUT_DIR/wonder_mosey_wild.ko"
 [ -f "$OUT_DIR/wonder_mosey_wild.ko" ] && cp -f "$OUT_DIR/wonder_mosey_wild.ko" "$MODULE_SYS_DIR/wonder_mosey_wild.ko"
