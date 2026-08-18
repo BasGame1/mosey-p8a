@@ -21,7 +21,9 @@ BIN="/vendor/bin/mosey_server"
 SQLITE3="$MODULE_DIR/system/vendor/bin/sqlite3_mosey"
 [ -x "$SQLITE3" ] || SQLITE3=""
 
-log "service.sh invoked (MODDIR=$MODDIR, MODULE_DIR=$MODULE_DIR, BIN=$BIN, sqlite3=${SQLITE3:-none})"
+DEV_CODENAME="$(getprop ro.product.device 2>/dev/null)"
+DEV_MODEL="$(getprop ro.product.model 2>/dev/null)"
+log "service.sh invoked (MODDIR=$MODDIR, MODULE_DIR=$MODULE_DIR, BIN=$BIN, sqlite3=${SQLITE3:-none}, device=${DEV_CODENAME:-unknown}/${DEV_MODEL:-unknown})"
 
 # Wait for Android boot to complete (and for KSU mounts to settle)
 i=0
@@ -164,6 +166,7 @@ if [ -n "$phenotype_db" ]; then
         "NearbySharing__external_sharing_provider_enabled" \
         "NearbySharing__enable_mosey_transport" \
         "NearbySharing__enable_mosey" \
+        "NearbySharing__enable_akita_mosey" \
         "MoseyTransport__enable_mosey" \
         "ExternalSharingProvider__enabled"; do
         "$SQLITE3" "$phenotype_db" \

@@ -29,6 +29,11 @@ set_permissions() {
   # Note: service.sh runs from /data/adb/... so we mainly need it executable.
   # File context will be determined by its location under /data/adb.
   set_perm $MODPATH/service.sh 0 0 0755
+
+  # Pixel 8a (akita) target check
+  if device_check -d "akita" || [ "$(getprop ro.product.device 2>/dev/null)" = "akita" ]; then
+    ui_print "  > Pixel 8a (akita) target detected"
+  fi
 }
 
 ##########################################################################################
