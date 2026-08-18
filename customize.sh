@@ -39,6 +39,35 @@ set_permissions() {
   fi
 }
 
+check_kmod_compat() {
+  local kver="$(uname -r 2>/dev/null)"
+  local ko_file="$MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko"
+
+  [ -f "$ko_file" ] || return 0
+
+  ui_print "- Checking kernel module compatibility ($kver)"
+
+  local compat=true
+  if [ -n "$kver" ]; then
+    case "$kver" in
+      6.1.*|5.15.*|5.10.*)
+        ui_print "  > Kernel $kver compatible with GKI virtual phy module"
+        ;;
+      *)
+        compat=false
+        ;;
+    esac
+  fi
+
+  if ! $compat; then
+    ui_print "  [!] WARNING: wonder_mosey_wild.ko is not compatible with kernel $kver!"
+    ui_print "  [!] Removing kernel module. Mosey AirDrop transport may not function without virtual phy."
+    rm -rf "$MODPATH/system/vendor/lib/modules" 2>/dev/null
+  fi
+}
+
+check_kmod_compat
+
 ##########################################################################################
 # MMT Extended Logic - Don't modify anything after this
 ##########################################################################################
