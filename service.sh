@@ -211,6 +211,23 @@ am broadcast \
   2>>"$LOGFILE"
 log "PACKAGE_ADDED broadcast sent"
 
+# ── Load virtual wonder kernel module ─────────────────────────────────────
+KO_PATH="/vendor/lib/modules/wonder_mosey_wild.ko"
+[ -f "$KO_PATH" ] || KO_PATH="/system/vendor/lib/modules/wonder_mosey_wild.ko"
+[ -f "$KO_PATH" ] || KO_PATH="$MODULE_DIR/system/vendor/lib/modules/wonder_mosey_wild.ko"
+
+if [ -f "$KO_PATH" ]; then
+  if ! lsmod 2>/dev/null | grep -q "wonder_mosey_wild"; then
+    log "loading kernel module via insmod $KO_PATH"
+    ins_out="$(insmod "$KO_PATH" 2>&1)"
+    log "insmod result: ${ins_out:-success}"
+  else
+    log "kernel module wonder_mosey_wild already loaded"
+  fi
+else
+  log "wonder_mosey_wild.ko not found"
+fi
+
 # ── Start mosey_server ─────────────────────────────────────────────────────
 if [ -f "$PIDFILE" ]; then
   oldpid="$(cat "$PIDFILE" 2>/dev/null)"

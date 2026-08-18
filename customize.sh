@@ -25,6 +25,9 @@ set_permissions() {
   # /vendor/etc/init/mosey.rc
   set_perm $MODPATH/system/vendor/etc/init/mosey.rc 0 0 0644 u:object_r:vendor_configs_file:s0
 
+  # /vendor/lib/modules/wonder_mosey_wild.ko
+  [ -f $MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko ] && set_perm $MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko 0 0 0644 u:object_r:vendor_file:s0
+
   # Late-boot launcher (KernelSU/Magisk service.d style)
   # Note: service.sh runs from /data/adb/... so we mainly need it executable.
   # File context will be determined by its location under /data/adb.
