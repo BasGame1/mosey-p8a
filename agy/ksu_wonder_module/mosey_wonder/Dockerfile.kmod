@@ -1,0 +1,19 @@
+# Dockerfile for building wonder_mosey_wild.ko (Pixel 8a / Pixel 8 series / GKI)
+FROM ubuntu:noble
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y \
+    clang-17 \
+    llvm-17 \
+    lld-17 \
+    make \
+    bc \
+    bison \
+    flex \
+    libssl-dev \
+    libelf-dev \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
