@@ -104,7 +104,7 @@ Boot
 ```
 
 On Pixel 9 / 10, this chain works natively via the BCM4398 chip's
-`wondertap` mechanism inside `bcmdhd`. On older Pixels (7/8) and non-Pixel
+`wondertap` mechanism inside `bcmdhd`. On older Pixels (7/8/8a) and non-Pixel
 devices, this project provides the missing pieces:
 
 - **`wonder_mosey_wild.ko`** — a standalone virtual mac80211 driver that
@@ -197,7 +197,7 @@ AirDrop (mosey Quick Share) — Full Stack
     ├── BCM4398 (Pixel 9/10, Samsung Galaxy S24 Exynos)
     │   ├── bcmdhd4390.ko with native wondertap
     │   └── Full RF: real 802.11 frame TX/RX via wonder0
-    ├── BCM4389 (Pixel 7/8, Pixel Fold)
+    ├── BCM4389 / BCM4383 (Pixel 7/8/8a, Pixel Fold)
     │   ├── bcmdhd without native wondertap
     │   └── wonder_mosey_wild.ko provides virtual phy (no real RF)
     ├── Qualcomm FastConnect (Samsung S24/S25 Snapdragon, OnePlus, etc.)
@@ -335,7 +335,7 @@ module root/
 | `wonder_mosey_wild.ko` (virtual phy) | ⚠️ Building | Build6 in progress; target vermagic: `6.1.145-android14-11-Wild-Exclusive` |
 | service.sh boot launcher | ✅ Working | Waits for `sys.boot_completed`, starts mosey_server |
 | phy rename (`iw phy phyN set name wonder`) | ⚠️ Pending ko | Waits for `wonder_mosey_wild.ko` to expose `phy_index` |
-| Native BCM wondertap (Pixel 7/8) | ❌ Blocked | No wonder.ko for kernel 5.10/5.15; standalone module is the workaround |
+| Native BCM wondertap (Pixel 7/8/8a) | ❌ Blocked | No wonder.ko for kernel 5.10/5.15; standalone module is the workaround |
 | Full 802.11 frame I/O | ❌ Not yet | Requires real BCM4398 hardware path (Pixel 9+ only) |
 | Non-Pixel devices | 🔬 Research | Theoretically works with KSU + virtual phy; untested |
 
@@ -381,7 +381,7 @@ Subsequent builds use the Docker layer cache and take ~30 seconds.
 
 | Target device | Kernel | Manifest branch | Change in Dockerfile |
 |---------------|--------|-----------------|----------------------|
-| Pixel 8 / 8 Pro (stock) | 5.15 | `android14-5.15` | Update branch + EXTRAVERSION |
+| Pixel 8 / 8a / 8 Pro (stock) | 5.15 | `android14-5.15` | Update branch + EXTRAVERSION |
 | Pixel 7 / 7 Pro | 5.10 | `android13-5.10` | Update branch + EXTRAVERSION |
 | Pixel 9 / 10 | 6.1 | `android14-6.1-2025-09` | Same as Wild KSU (no patch needed) |
 | Samsung S24 | 6.1 | Check Samsung kernel source | Different EXTRAVERSION / CONFIG\_LOCALVERSION |
@@ -550,7 +550,7 @@ Android-сервис, а не CLI-утилита. Он линкуется с `li
 ```
 
 На Pixel 9 / 10 эта цепочка работает нативно через механизм `wondertap` чипа
-BCM4398 внутри `bcmdhd`. На старых Pixel (7/8) и не-Pixel устройствах этот
+BCM4398 внутри `bcmdhd`. На старых Pixel (7/8/8a) и не-Pixel устройствах этот
 проект предоставляет недостающие части:
 
 - **`wonder_mosey_wild.ko`** — автономный виртуальный mac80211-драйвер, создающий
@@ -642,7 +642,7 @@ AirDrop (mosey Quick Share) — полный стек
     ├── BCM4398 (Pixel 9/10, Samsung Galaxy S24 Exynos)
     │   ├── bcmdhd4390.ko с нативным wondertap
     │   └── Полный RF: реальная передача/приём 802.11-фреймов через wonder0
-    ├── BCM4389 (Pixel 7/8, Pixel Fold)
+    ├── BCM4389 / BCM4383 (Pixel 7/8/8a, Pixel Fold)
     │   ├── bcmdhd без нативного wondertap
     │   └── wonder_mosey_wild.ko предоставляет виртуальный phy (без RF)
     ├── Qualcomm FastConnect (Samsung S24/S25 Snapdragon, OnePlus и др.)
@@ -781,7 +781,7 @@ AirDrop (mosey Quick Share) — полный стек
 | `wonder_mosey_wild.ko` (виртуальный phy) | ⚠️ Сборка | Build6 в процессе; целевой vermagic: `6.1.145-android14-11-Wild-Exclusive` |
 | Загрузчик service.sh | ✅ Работает | Ждёт `sys.boot_completed`, запускает mosey_server |
 | Переименование phy | ⚠️ Ожидает .ko | Ждёт готовности `wonder_mosey_wild.ko` для чтения `phy_index` |
-| Нативный BCM wondertap (Pixel 7/8) | ❌ Заблокирован | Нет wonder.ko для ядра 5.10/5.15; автономный модуль — обходной путь |
+| Нативный BCM wondertap (Pixel 7/8/8a) | ❌ Заблокирован | Нет wonder.ko для ядра 5.10/5.15; автономный модуль — обходной путь |
 | Полный I/O 802.11-фреймов | ❌ Пока нет | Требует настоящего BCM4398 (только Pixel 9+) |
 | Не-Pixel устройства | 🔬 Исследование | Теоретически работает с KSU + виртуальный phy; не тестировалось |
 
@@ -827,7 +827,7 @@ bash build.sh
 
 | Целевое устройство | Ядро | Ветка манифеста | Изменение в Dockerfile |
 |--------------------|------|-----------------|------------------------|
-| Pixel 8 / 8 Pro (сток) | 5.15 | `android14-5.15` | Обновить ветку + EXTRAVERSION |
+| Pixel 8 / 8a / 8 Pro (сток) | 5.15 | `android14-5.15` | Обновить ветку + EXTRAVERSION |
 | Pixel 7 / 7 Pro | 5.10 | `android13-5.10` | Обновить ветку + EXTRAVERSION |
 | Pixel 9 / 10 | 6.1 | `android14-6.1-2025-09` | То же, что Wild KSU (патч не нужен) |
 | Samsung S24 | 6.1 | Исходники ядра Samsung | Другой EXTRAVERSION / CONFIG\_LOCALVERSION |
