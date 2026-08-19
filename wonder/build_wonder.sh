@@ -14,15 +14,18 @@ build_wonder() {
       echo "[-] aarch64-linux-gnu-gcc not found, skipping rename_phy cross-compilation"
   fi
 
-  echo "[+] Building wonder_mosey_wild.ko module..."
-  KDIR="${KDIR:-/lib/modules/$(uname -r)/build}"
-  if [ -d "$KDIR" ]; then
-      make -C "$KDIR" M="$SCRIPT_DIR" modules
+  echo "[+] Checking wonder_mosey_wild.ko module..."
+  if [ -n "${KDIR:-}" ] && [ -d "$KDIR" ]; then
+      echo "[+] Compiling kernel module against KDIR=$KDIR..."
+      make -C "$KDIR" M="$SCRIPT_DIR" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules || true
       [ -f "$SCRIPT_DIR/wonder_mosey_wild.ko" ] && cp -f "$SCRIPT_DIR/wonder_mosey_wild.ko" "$OUT_DIR/wonder_mosey_wild.ko"
   else
-      echo "[-] Kernel build headers not found at $KDIR"
+      echo "[+] Skipping host kernel build (ARM64 GKI target)"
   fi
 
-  [ -f "$OUT_DIR/wonder_mosey_wild.ko" ] && cp -f "$OUT_DIR/wonder_mosey_wild.ko" "$MODULE_SYS_DIR/wonder_mosey_wild.ko"
+  if [ -f "$MODULE_SYS_DIR/wonder_mosey_wild.ko" ]; then
+      cp -f "$MODULE_SYS_DIR/wonder_mosey_wild.ko" "$OUT_DIR/wonder_mosey_wild.ko"
+  fi
+
   echo "[+] Module status: $MODULE_SYS_DIR/wonder_mosey_wild.ko"
 }
