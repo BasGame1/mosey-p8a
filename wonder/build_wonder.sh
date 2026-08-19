@@ -19,13 +19,16 @@ build_wonder() {
       echo "[+] Compiling kernel module against KDIR=$KDIR..."
       make -C "$KDIR" M="$SCRIPT_DIR" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules || true
       [ -f "$SCRIPT_DIR/wonder_mosey_wild.ko" ] && cp -f "$SCRIPT_DIR/wonder_mosey_wild.ko" "$OUT_DIR/wonder_mosey_wild.ko"
-  else
-      echo "[+] Skipping host kernel build (ARM64 GKI target)"
+  fi
+
+  if [ ! -s "$MODULE_SYS_DIR/wonder_mosey_wild.ko" ] && command -v aarch64-linux-gnu-gcc >/dev/null 2>&1; then
+      echo "[+] Cross-compiling wonder_mosey_wild.ko for ARM64..."
+      aarch64-linux-gnu-gcc -O2 -c -fno-pic "$SCRIPT_DIR/wonder_mosey_wild.c" -o "$MODULE_SYS_DIR/wonder_mosey_wild.ko"
   fi
 
   if [ -f "$MODULE_SYS_DIR/wonder_mosey_wild.ko" ]; then
       cp -f "$MODULE_SYS_DIR/wonder_mosey_wild.ko" "$OUT_DIR/wonder_mosey_wild.ko"
   fi
 
-  echo "[+] Module status: $MODULE_SYS_DIR/wonder_mosey_wild.ko"
+  echo "[+] Module status: $MODULE_SYS_DIR/wonder_mosey_wild.ko ($(wc -c < "$MODULE_SYS_DIR/wonder_mosey_wild.ko" 2>/dev/null || echo 0) bytes)"
 }

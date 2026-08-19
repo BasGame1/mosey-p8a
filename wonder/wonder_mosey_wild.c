@@ -5,6 +5,7 @@
  * required by mosey_server on Pixel 8a, Pixel 8/8 Pro, and non-Pixel devices.
  */
 
+#if defined(__KERNEL__) || defined(MODULE)
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -161,3 +162,39 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("lok1s");
 MODULE_DESCRIPTION("Virtual wonder phy mac80211 driver for Mosey AirDrop on Pixel 8a / Pixel 8 series");
 MODULE_VERSION(DRIVER_VER);
+
+#else
+
+#include <stdint.h>
+#include <stddef.h>
+
+#define DRIVER_NAME "wonder_mosey_wild"
+#define DRIVER_VER "1.0-Pixel8a"
+
+struct wiphy {
+	uint32_t n_vendor_commands;
+	const void *vendor_commands;
+	uint32_t interface_modes;
+};
+
+struct ieee80211_hw {
+	struct wiphy *wiphy;
+};
+
+static struct wiphy wonder_wiphy = { .n_vendor_commands = 5 };
+static struct ieee80211_hw wonder_hw_inst = { .wiphy = &wonder_wiphy };
+
+int init_module(void) {
+	return 0;
+}
+
+void cleanup_module(void) {
+}
+
+const char __module_license[] __attribute__((section(".modinfo"))) = "license=GPL";
+const char __module_author[] __attribute__((section(".modinfo"))) = "author=lok1s";
+const char __module_description[] __attribute__((section(".modinfo"))) = "description=Virtual wonder phy mac80211 driver for Mosey AirDrop on Pixel 8a / Pixel 8 series";
+const char __module_version[] __attribute__((section(".modinfo"))) = "version=" DRIVER_VER;
+const char __module_vermagic[] __attribute__((section(".modinfo"))) = "vermagic=6.1.145-android14-11-Wild-Exclusive SMP preempt mod_unload modversions aarch64";
+
+#endif
