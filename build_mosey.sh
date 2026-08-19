@@ -21,6 +21,9 @@ build_mosey() {
     fi
     cp -f "$i" out/zip/
   done
+  for i in $FOLDERS; do
+   cp $i out/zip
+  done
 }
 zip_files() {
   set -e
