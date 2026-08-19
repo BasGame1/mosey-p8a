@@ -71,6 +71,51 @@ static const struct wiphy_vendor_command wonder_vendor_commands[] = {
 	},
 };
 
+static int wonder_op_start(struct ieee80211_hw *hw)
+{
+	pr_info("%s: start\n", DRIVER_NAME);
+	return 0;
+}
+
+static void wonder_op_stop(struct ieee80211_hw *hw)
+{
+	pr_info("%s: stop\n", DRIVER_NAME);
+}
+
+static int wonder_op_add_interface(struct ieee80211_hw *hw,
+				     struct ieee80211_vif *vif)
+{
+	pr_info("%s: add interface\n", DRIVER_NAME);
+	return 0;
+}
+
+static void wonder_op_remove_interface(struct ieee80211_hw *hw,
+					struct ieee80211_vif *vif)
+{
+	pr_info("%s: remove interface\n", DRIVER_NAME);
+}
+
+static int wonder_op_config(struct ieee80211_hw *hw, u32 changed)
+{
+	return 0;
+}
+
+static void wonder_op_tx(struct ieee80211_hw *hw,
+			 struct ieee80211_vif *vif,
+			 struct sk_buff *skb)
+{
+	dev_kfree_skb(skb);
+}
+
+static const struct ieee80211_ops wonder_ops = {
+	.start = wonder_op_start,
+	.stop = wonder_op_stop,
+	.add_interface = wonder_op_add_interface,
+	.remove_interface = wonder_op_remove_interface,
+	.config = wonder_op_config,
+	.tx = wonder_op_tx,
+};
+
 static struct ieee80211_hw *wonder_hw;
 
 static int __init wonder_mosey_init(void)
@@ -80,13 +125,14 @@ static int __init wonder_mosey_init(void)
 
 	pr_info("%s: initializing virtual wonder phy (Pixel 8a support)\n", DRIVER_NAME);
 
-	wonder_hw = ieee80211_alloc_hw(0, NULL);
+	wonder_hw = ieee80211_alloc_hw(0, &wonder_ops);
 	if (!wonder_hw)
 		return -ENOMEM;
 
 	wiphy = wonder_hw->wiphy;
 	wiphy->vendor_commands = wonder_vendor_commands;
 	wiphy->n_vendor_commands = ARRAY_SIZE(wonder_vendor_commands);
+	wiphy->interface_modes = BIT(NL80211_IFTYPE_MONITOR) | BIT(NL80211_IFTYPE_STATION);
 
 	ret = ieee80211_register_hw(wonder_hw);
 	if (ret) {

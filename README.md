@@ -334,7 +334,7 @@ module root/
 | Pixel Experience feature flags | ✅ Working | `payload/pixel_experience_*.xml` injected |
 | `wonder_mosey_wild.ko` (virtual phy) | ✅ Integrated | Included in `system/vendor/lib/modules/`, loaded on boot via `service.sh` |
 | service.sh boot launcher | ✅ Working | Auto-loads `wonder_mosey_wild.ko`, patches Phenotype DB, launches `mosey_server` |
-| phy rename (`iw phy phyN set name wonder`) | ✅ Working | Virtual phy created as `wonder` and configured natively |
+| phy rename (`iw phy phyN set name wonder`) | ✅ Working | Automated via `service.sh` + `rename_phy` utility |
 | Native BCM wondertap (Pixel 7/8/8a) | ⚠️ Virtual phy | Stock `bcmdhd` driver lacks wondertap; virtual phy module provides `wonder0` fallback |
 | Full 802.11 frame I/O | ⚠️ Hardware path | Raw 802.11 action frame RF requires BCM4398 (Pixel 9+); BLE discovery works |
 | Non-Pixel devices | 🔬 Research | Theoretically works with KSU + virtual phy; untested |
@@ -780,7 +780,7 @@ AirDrop (mosey Quick Share) — полный стек
 | Feature-флаги Pixel Experience | ✅ Работают | `payload/pixel_experience_*.xml` внедряются |
 | `wonder_mosey_wild.ko` (виртуальный phy) | ✅ Интегрирован | Включён в `system/vendor/lib/modules/`, загружается при старте через `service.sh` |
 | Загрузчик service.sh | ✅ Работает | Автоматически загружает `.ko`, патчит Phenotype DB, запускает `mosey_server` |
-| Переименование phy | ✅ Работает | Виртуальный phy создаётся как `wonder` и нативно конфигурируется |
+| Переименование phy | ✅ Работает | Автоматизировано через `service.sh` + утилиту `rename_phy` |
 | Нативный BCM wondertap (Pixel 7/8/8a) | ⚠️ Виртуальный phy | В стоковом `bcmdhd` нет wondertap; виртуальный phy предоставляет обходной `wonder0` |
 | Полный I/O 802.11-фреймов | ⚠️ Аппаратный путь | Raw 802.11 RF требует BCM4398 (Pixel 9+); BLE-транспорт работает |
 | Не-Pixel устройства | 🔬 Исследование | Теоретически работает с KSU + виртуальный phy; не тестировалось |

@@ -26,7 +26,7 @@ set_permissions() {
   set_perm $MODPATH/system/vendor/etc/init/mosey.rc 0 0 0644 u:object_r:vendor_configs_file:s0
 
   # /vendor/lib/modules/wonder_mosey_wild.ko
-  [ -f $MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko ] && set_perm $MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko 0 0 0644 u:object_r:vendor_file:s0
+  [ -f "$MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko" ] && set_perm "$MODPATH/system/vendor/lib/modules/wonder_mosey_wild.ko" 0 0 0644 u:object_r:vendor_file:s0
 
   # Late-boot launcher (KernelSU/Magisk service.d style)
   # Note: service.sh runs from /data/adb/... so we mainly need it executable.
@@ -62,7 +62,7 @@ check_kmod_compat() {
   if ! $compat; then
     ui_print "  [!] WARNING: wonder_mosey_wild.ko is not compatible with kernel $kver!"
     ui_print "  [!] Removing kernel module. Mosey AirDrop transport may not function without virtual phy."
-    rm -rf "$MODPATH/system/vendor/lib/modules" 2>/dev/null
+    rm -f "$ko_file" 2>/dev/null
   fi
 }
 

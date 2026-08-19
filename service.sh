@@ -217,12 +217,23 @@ KO_PATH="/vendor/lib/modules/wonder_mosey_wild.ko"
 [ -f "$KO_PATH" ] || KO_PATH="$MODULE_DIR/system/vendor/lib/modules/wonder_mosey_wild.ko"
 
 if [ -f "$KO_PATH" ]; then
-  if ! lsmod 2>/dev/null | grep -q "wonder_mosey_wild"; then
+  if [ ! -d /sys/module/wonder_mosey_wild ]; then
     log "loading kernel module via insmod $KO_PATH"
     ins_out="$(insmod "$KO_PATH" 2>&1)"
-    log "insmod result: ${ins_out:-success}"
+    rc=$?
+    log "insmod rc=$rc: ${ins_out:-success}"
   else
     log "kernel module wonder_mosey_wild already loaded"
+  fi
+
+  RENAME_BIN="/vendor/bin/rename_phy"
+  [ -x "$RENAME_BIN" ] || RENAME_BIN="/system/vendor/bin/rename_phy"
+  [ -x "$RENAME_BIN" ] || RENAME_BIN="$MODULE_DIR/system/vendor/bin/rename_phy"
+  if [ -x "$RENAME_BIN" ]; then
+    phy_idx="$(cat /sys/module/wonder_mosey_wild/parameters/phy_index 2>/dev/null)"
+    [ -z "$phy_idx" ] && phy_idx="0"
+    log "invoking rename_phy $phy_idx wonder"
+    "$RENAME_BIN" "$phy_idx" wonder >>"$LOGFILE" 2>&1
   fi
 else
   log "wonder_mosey_wild.ko not found"
